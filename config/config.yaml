@@ -1,0 +1,18 @@
+samples:
+  - AGA01
+  - AGA02
+  - AGA03
+  - LWR05
+  - LWR06
+  - LWR07
+
+groups:
+  AGA01: control    # Rhipicephalus appendiculatus
+  AGA02: control    # Rhipicephalus appendiculatus
+  AGA03: control    # Rhipicephalus appendiculatus
+  LWR05: treatment  # Rhipicephalus decoloratus
+  LWR06: treatment  # Rhipicephalus decoloratus
+  LWR07: treatment  # Rhipicephalus decoloratus
+
+genome: "data/reference/genome.fa"
+gtf: "data/reference/genes.gtf"

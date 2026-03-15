@@ -5,8 +5,15 @@
 results/
 logs/
 
+# Exceptions - specific result files required for submission
+!results/
+!results/analysis/
+!results/analysis/pca_plot.pdf
+!results/analysis/correlation_heatmap.pdf
+
 # Data files (too large for git)
 data/
+raw/
 
 # Python
 __pycache__/
