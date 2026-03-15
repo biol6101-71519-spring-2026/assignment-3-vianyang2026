@@ -1,7 +1,5 @@
 # Load configuration        
 configfile: "config/config.yaml"    
-
-
 # Rule all: define the final outputs of the workflow
 rule all:
     input:
@@ -41,8 +39,6 @@ rule fastqc_raw:
         "logs/fastqc_raw/{sample}_R{read}.log"
     shell:
         "fastqc {input} --outdir results/qc/raw_fastqc/ > {log} 2>&1"
-
-
 rule trim_galore:
     input:
         r1 = "raw/{sample}_R1.fastq.gz",
@@ -57,8 +53,6 @@ rule trim_galore:
         "{input.r1} {input.r2} > {log} 2>&1 && "
         "mv results/trimmed/{wildcards.sample}_R1_val_1.fq.gz {output.r1} && "
         "mv results/trimmed/{wildcards.sample}_R2_val_2.fq.gz {output.r2}"
-
-
 rule fastqc_trimmed:
     input:
         r1 = "results/trimmed/{sample}_R1_trimmed.fastq.gz",
@@ -72,8 +66,6 @@ rule fastqc_trimmed:
         "logs/fastqc_trimmed/{sample}.log"
     shell:
         "fastqc {input.r1} {input.r2} --outdir results/qc/trimmed_fastqc/ > {log} 2>&1"
-
-
 rule multiqc:
     input:
         expand("results/qc/raw_fastqc/{sample}_R{read}_fastqc.zip",
@@ -107,8 +99,6 @@ rule star_index:
         "--genomeFastaFiles {input.genome} "
         "--sjdbGTFfile {input.gtf} "
         "--runThreadN 4 > {log} 2>&1"
-
-
 rule star_align:
     input:
         r1    = "results/trimmed/{sample}_R1_trimmed.fastq.gz",
@@ -126,8 +116,6 @@ rule star_align:
         "--outSAMtype BAM Unsorted "
         "--outTmpDir /tmp/STAR_{wildcards.sample} "
         "--outStd BAM_Unsorted > {output} 2> {log}"
-
-
 rule sort_bam:
     input:
         "results/aligned/{sample}.bam"
@@ -137,8 +125,6 @@ rule sort_bam:
         "logs/sort_bam/{sample}.log"
     shell:
         "samtools sort {input} -o {output} > {log} 2>&1"
-
-
 rule index_bam:
     input:
         "results/aligned/{sample}.sorted.bam"
@@ -148,8 +134,6 @@ rule index_bam:
         "logs/index_bam/{sample}.log"
     shell:
         "samtools index {input} > {log} 2>&1"
-
-
 rule alignment_stats:
     input:
         "results/aligned/{sample}.sorted.bam"
@@ -208,8 +192,6 @@ rule plot_pca:
         "logs/plot_pca/plot_pca.log"
     script:
         "scripts/plot_pca.R"
-
-
 rule plot_correlation:
     input:
         counts   = "results/counts/count_matrix.tsv",
